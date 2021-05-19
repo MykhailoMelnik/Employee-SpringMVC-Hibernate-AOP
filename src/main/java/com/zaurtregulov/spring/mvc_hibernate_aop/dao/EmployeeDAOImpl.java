@@ -3,6 +3,7 @@ package com.zaurtregulov.spring.mvc_hibernate_aop.dao;
 import com.zaurtregulov.spring.mvc_hibernate_aop.entity.Employee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -32,5 +33,14 @@ public class EmployeeDAOImpl implements EmployeeDAO {
         Session session = sessionFactory.getCurrentSession();
         Employee employee = session.get(Employee.class, id);
         return employee;
+    }
+
+    @Override
+    public void deleteEmployee(int id) {
+        System.out.println(id);
+        Session session = sessionFactory.getCurrentSession();
+        Query<Employee> query = session.createQuery("DELETE from Employee where id=:employeeId");
+        query.setParameter("employeeId", id);
+        query.executeUpdate();
     }
 }
